@@ -9,7 +9,7 @@ export interface AvatarProps {
 
 export function Avatar({ uri, name }: AvatarProps) {
   const { initials, backgroundColor } = useAvatar(name);
-  const dimensionStyle = { width: 48, height: 48, borderRadius: "50%" };
+  const dimensionStyle = { width: 48, height: 48, borderRadius: 9999 };
 
   if (uri) {
     return <Image source={{ uri }} style={dimensionStyle} />;
