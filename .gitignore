@@ -1,0 +1,22 @@
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Turbo
+.turbo/
+
+# Expo / React Native
+.expo/
+ios/
+android/
+apps/mobile/android/local.properties
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+.idea
