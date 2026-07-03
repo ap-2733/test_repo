@@ -1,37 +1,100 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import {
+  Animated,
+  Dimensions,
+  PanResponder,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Avatar } from "../Avatar";
 import { ListItemProps } from "./types";
 
-export function ListItem({ avatarUri, name }: ListItemProps) {
+const SWIPE_THRESHOLD = 120;
+const ITEM_HEIGHT = 74;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
+export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const itemHeight = useRef(new Animated.Value(ITEM_HEIGHT)).current;
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gesture) =>
+        Math.abs(gesture.dx) > Math.abs(gesture.dy) && Math.abs(gesture.dx) > 5,
+      onPanResponderMove: Animated.event([null, { dx: translateX }], {
+        useNativeDriver: false,
+      }),
+      onPanResponderRelease: (_, gesture) => {
+        if (Math.abs(gesture.dx) > SWIPE_THRESHOLD) {
+          const direction = Math.sign(gesture.dx);
+          Animated.timing(translateX, {
+            toValue: direction * SCREEN_WIDTH,
+            duration: 300,
+            useNativeDriver: false,
+          }).start(() => {
+            Animated.parallel([
+              Animated.timing(itemHeight, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+              }),
+              Animated.timing(opacity, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+              }),
+            ]).start(onDelete);
+          });
+        } else {
+          Animated.spring(translateX, {
+            toValue: 0,
+            useNativeDriver: false,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
   return (
-    <View style={styles.container}>
-      <Avatar uri={avatarUri} name={name} />
-      <View style={styles.textContainer}>
+    <Animated.View style={[styles.wrapper, { height: itemHeight, opacity }]}>
+      <View style={styles.background} />
+      <Animated.View
+        style={[styles.foreground, { transform: [{ translateX }] }]}
+        {...panResponder.panHandlers}
+      >
+        <Avatar uri={avatarUri} name={name} />
         <Text style={styles.title}>{name}</Text>
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
+    width: "100%",
+    overflow: "hidden",
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "indianred",
+  },
+  foreground: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    height: ITEM_HEIGHT,
     paddingVertical: 12,
     paddingHorizontal: 16,
-  },
-  textContainer: {
-    flexShrink: 1,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
   },
   title: {
     fontSize: 16,
     fontWeight: "600",
     color: "#000",
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
   },
 });
