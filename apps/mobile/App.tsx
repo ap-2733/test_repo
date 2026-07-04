@@ -1,25 +1,29 @@
 import React, { useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import { getData, ListItem } from "@repo/ui";
 
 export default function App() {
   const [items, setItems] = useState(getData);
-
   return (
     <SafeAreaView style={styles.safe}>
-      <FlatList
+      <FlashList
         data={items}
         keyExtractor={(d) => String(d.id)}
         contentContainerStyle={styles.container}
-        renderItem={({ item: d }) => (
-          <ListItem
-            avatarUri={d.avatarUrl}
-            name={d.name}
-            onDelete={() =>
-              setItems((prev) => prev.filter((i) => i.id !== d.id))
-            }
-          />
-        )}
+        renderItem={({ item: d }) => {
+          return (
+            <ListItem
+              key={d.id}
+              id={d.id}
+              avatarUri={d.avatarUrl}
+              name={d.name}
+              onDelete={(id) => {
+                setItems((prev) => prev.filter((i) => i.id !== id));
+              }}
+            />
+          );
+        }}
       />
     </SafeAreaView>
   );

@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 
 const SWIPE_THRESHOLD = 120;
 
-export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
+export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
 
@@ -66,7 +66,7 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
               wrapper.style.transition = "none";
               wrapper.style.height = "74px";
               wrapper.style.opacity = "1";
-              onDelete();
+              onDelete(id);
             }, 300); // Matches CSS transition duration
           }
         }, 300);

@@ -14,7 +14,7 @@ const SWIPE_THRESHOLD = 120;
 const ITEM_HEIGHT = 74;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
+export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
   const translateX = useRef(new Animated.Value(0)).current;
   const itemHeight = useRef(new Animated.Value(ITEM_HEIGHT)).current;
   const opacity = useRef(new Animated.Value(1)).current;
@@ -44,9 +44,14 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
               Animated.timing(opacity, {
                 toValue: 0,
                 duration: 300,
-                useNativeDriver: false,
+                useNativeDriver: true,
               }),
-            ]).start(onDelete);
+            ]).start(() => {
+              itemHeight.setValue(ITEM_HEIGHT);
+              opacity.setValue(1);
+              translateX.setValue(0);
+              onDelete(id);
+            });
           });
         } else {
           Animated.spring(translateX, {
@@ -55,7 +60,7 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
           }).start();
         }
       },
-    })
+    }),
   ).current;
 
   return (

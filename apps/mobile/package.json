@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@repo/ui": "*",
+    "@shopify/flash-list": "^2.3.2",
     "react": "18.3.0",
     "react-native": "0.76.5"
   },
