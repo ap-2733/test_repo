@@ -14,6 +14,9 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
   const handleStart = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
+    if (foregroundRef.current) {
+      foregroundRef.current.style.transition = `transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)`;
+    }
   };
 
   useEffect(() => {
@@ -30,6 +33,7 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
       if (!isDragging) return;
       setIsDragging(false);
       const currentX = e.clientX - startX;
+
       if (Math.abs(currentX) > SWIPE_THRESHOLD) {
         // Trigger Delete
         const direction = Math.sign(currentX);
@@ -48,11 +52,20 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
             // Force reflow
             wrapper.offsetHeight;
 
+            wrapper.style.transition = `height 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease`;
+
             wrapper.style.height = "0px";
             wrapper.style.opacity = "0";
             wrapper.style.borderBottomWidth = "0px";
 
             setTimeout(() => {
+              if (foregroundRef.current) {
+                foregroundRef.current.style.transition = "none";
+                foregroundRef.current.style.transform = `translateX(0px)`;
+              }
+              wrapper.style.transition = "none";
+              wrapper.style.height = "74px";
+              wrapper.style.opacity = "1";
               onDelete();
             }, 300); // Matches CSS transition duration
           }
@@ -79,9 +92,7 @@ export function ListItem({ avatarUri, name, onDelete }: ListItemProps) {
       <div className={styles.background}></div>
       <div
         ref={foregroundRef}
-        className={
-          styles.foreground + " " + (!isDragging ? styles.isAnimating : "")
-        }
+        className={styles.foreground}
         onMouseDown={handleStart}
       >
         <Avatar uri={avatarUri} name={name} />
