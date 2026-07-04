@@ -15,7 +15,8 @@
     "@repo/ui": "*",
     "@shopify/flash-list": "^2.3.2",
     "react": "19.2.7",
-    "react-native": "0.86.0"
+    "react-native": "0.86.0",
+    "react-native-safe-area-context": "^5.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",

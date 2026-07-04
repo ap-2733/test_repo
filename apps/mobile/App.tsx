@@ -1,5 +1,9 @@
 import React, { useCallback, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+} from "react-native-safe-area-context";
 import { FlashList } from "@shopify/flash-list";
 import { getData, ListItem } from "@repo/ui";
 
@@ -11,24 +15,26 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <FlashList
-        data={items}
-        keyExtractor={(d) => String(d.id)}
-        contentContainerStyle={styles.container}
-        renderItem={({ item: d }) => {
-          return (
-            <ListItem
-              key={d.id}
-              id={d.id}
-              avatarUri={d.avatarUrl}
-              name={d.name}
-              onDelete={handleDelete}
-            />
-          );
-        }}
-      />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safe}>
+        <FlashList
+          data={items}
+          keyExtractor={(d) => String(d.id)}
+          contentContainerStyle={styles.container}
+          renderItem={({ item: d }) => {
+            return (
+              <ListItem
+                key={d.id}
+                id={d.id}
+                avatarUri={d.avatarUrl}
+                name={d.name}
+                onDelete={handleDelete}
+              />
+            );
+          }}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
