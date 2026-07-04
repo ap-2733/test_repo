@@ -12,7 +12,14 @@ out/
 # Expo / React Native
 .expo/
 ios/
-android/
+
+apps/mobile/android/build/
+apps/mobile/android/app/build/
+apps/mobile/android/.gradle/
+apps/mobile/android/local.properties      # machine-specific SDK path, never commit
+apps/mobile/android/*.iml
+apps/mobile/android/.idea/
+apps/mobile/android/app/.cxx/
 apps/mobile/android/local.properties
 
 # Misc

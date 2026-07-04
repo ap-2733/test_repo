@@ -10,7 +10,7 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "android": "cd ./apps/mobile && react-native run-android",
+    "android": "cd ./apps/mobile && (react-native start & (sleep 5 && react-native run-android))",
     "web": "cd ./apps/web && vite"
   },
   "devDependencies": {
