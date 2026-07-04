@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   background: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "indianred",
   },
   foreground: {

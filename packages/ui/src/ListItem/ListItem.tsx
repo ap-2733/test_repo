@@ -47,7 +47,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
         setTimeout(() => {
           const wrapper = wrapperRef.current;
           if (wrapper) {
-            wrapper.style.height = `${wrapperRef.current.offsetHeight}px`; // Lock current height
+            wrapper.style.height = `${wrapper.offsetHeight}px`; // Lock current height
 
             // Force reflow
             wrapper.offsetHeight;
