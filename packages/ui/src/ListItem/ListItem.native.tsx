@@ -66,8 +66,8 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
   return (
     <Animated.View style={[styles.wrapper, { height: itemHeight, opacity }]}>
       <View style={styles.background}>
-        <Text style={{ color: "white" }}>🗑 Delete</Text>
-        <Text style={{ color: "white" }}>Delete 🗑</Text>
+        <Text style={{ color: "white", fontSize: 22 }}>🗑 Delete</Text>
+        <Text style={{ color: "white", fontSize: 22 }}>Delete 🗑</Text>
       </View>
       <Animated.View
         style={[styles.foreground, { transform: [{ translateX }] }]}
