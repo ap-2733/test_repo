@@ -21,6 +21,7 @@ function Row({
   return (
     <div style={style}>
       <ListItem
+        id={item.id}
         avatarUri={item.avatarUrl}
         name={item.name}
         onDelete={() => onDeleteItem(item.id)}

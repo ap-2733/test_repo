@@ -20,3 +20,4 @@ apps/mobile/android/local.properties
 *.log
 npm-debug.log*
 .idea
+apps/web/tsconfig.tsbuildinfo
