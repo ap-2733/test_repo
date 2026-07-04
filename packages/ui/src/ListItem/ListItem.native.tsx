@@ -44,7 +44,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
               Animated.timing(opacity, {
                 toValue: 0,
                 duration: 300,
-                useNativeDriver: true,
+                useNativeDriver: false,
               }),
             ]).start(() => {
               itemHeight.setValue(ITEM_HEIGHT);
