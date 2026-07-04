@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { getData, ListItem } from "@repo/ui";
 
 export default function App() {
   const [items, setItems] = useState(getData);
+
+  const handleDelete = useCallback((id: number) => {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+  }, []);
+
   return (
     <SafeAreaView style={styles.safe}>
       <FlashList
@@ -18,9 +23,7 @@ export default function App() {
               id={d.id}
               avatarUri={d.avatarUrl}
               name={d.name}
-              onDelete={(id) => {
-                setItems((prev) => prev.filter((i) => i.id !== id));
-              }}
+              onDelete={handleDelete}
             />
           );
         }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { List, RowComponentProps, useDynamicRowHeight } from "react-window";
 import { getData, ListItem } from "@repo/ui";
 
@@ -21,6 +21,7 @@ function Row({
   return (
     <div style={style}>
       <ListItem
+        key={item.id}
         id={item.id}
         avatarUri={item.avatarUrl}
         name={item.name}
@@ -37,11 +38,18 @@ export default function App() {
     defaultRowHeight: ROW_HEIGHT,
   });
 
-  const onDeleteItem = (id: number) => {
-    const index = items.findIndex((i) => i.id === id);
-    rowHeight.setRowHeight(index, ROW_HEIGHT);
-    setItems((prev) => prev.filter((i) => i.id !== id));
-  };
+  const onDeleteItem = useCallback(
+    (id: number) => {
+      const index = items.findIndex((i) => i.id === id);
+      rowHeight.setRowHeight(index, ROW_HEIGHT);
+      setItems((prev) => prev.filter((i) => i.id !== id));
+    },
+    [items, rowHeight],
+  );
+
+  const rowProps = useMemo(() => {
+    return { items, onDeleteItem };
+  }, [items, onDeleteItem]);
 
   return (
     <div className={styles.screen}>
@@ -50,7 +58,7 @@ export default function App() {
           rowComponent={Row}
           rowCount={items.length}
           rowHeight={rowHeight}
-          rowProps={{ items, onDeleteItem }}
+          rowProps={rowProps}
           style={{ height: "100%", width: "100%" }}
         />
       </div>
