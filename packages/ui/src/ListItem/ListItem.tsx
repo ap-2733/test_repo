@@ -11,7 +11,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
 
   const foregroundRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const handleStart = (e: React.MouseEvent) => {
+  const handleStart = (e: React.PointerEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
     if (foregroundRef.current) {
@@ -20,7 +20,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
   };
 
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
+    const handleMove = (e: PointerEvent) => {
       if (!isDragging) {
         return;
       }
@@ -29,7 +29,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
       }
     };
 
-    const handleEnd = (e: MouseEvent) => {
+    const handleEnd = (e: PointerEvent) => {
       if (!isDragging) return;
       setIsDragging(false);
       const currentX = e.clientX - startX;
@@ -78,12 +78,22 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
       }
     };
 
-    window.addEventListener("mousemove", handleMove); // Window to catch fast drags
-    window.addEventListener("mouseup", handleEnd);
+    const handleCancel = () => {
+      if (!isDragging) return;
+      setIsDragging(false);
+      if (foregroundRef.current) {
+        foregroundRef.current.style.transform = `translateX(0px)`;
+      }
+    };
+
+    window.addEventListener("pointermove", handleMove); // Window to catch fast drags
+    window.addEventListener("pointerup", handleEnd);
+    window.addEventListener("pointercancel", handleCancel);
 
     return () => {
-      window.removeEventListener("mousemove", handleMove); // Window to catch fast drags
-      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("pointermove", handleMove); // Window to catch fast drags
+      window.removeEventListener("pointerup", handleEnd);
+      window.removeEventListener("pointercancel", handleCancel);
     };
   }, [isDragging, startX]);
 
@@ -96,7 +106,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
       <div
         ref={foregroundRef}
         className={styles.foreground}
-        onMouseDown={handleStart}
+        onPointerDown={handleStart}
       >
         <Avatar uri={avatarUri} name={name} />
         <span className={styles.text}>{name}</span>
