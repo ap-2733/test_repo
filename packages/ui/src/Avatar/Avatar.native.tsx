@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 import { useAvatar } from "./useAvatar";
 
@@ -10,9 +10,16 @@ export interface AvatarProps {
 export function Avatar({ uri, name }: AvatarProps) {
   const { initials, backgroundColor } = useAvatar(name);
   const dimensionStyle = { width: 48, height: 48, borderRadius: 9999 };
+  const [checkedUri, setCheckedUri] = useState(uri);
 
-  if (uri) {
-    return <Image source={{ uri }} style={dimensionStyle} />;
+  if (checkedUri) {
+    return (
+      <Image
+        source={{ uri: checkedUri }}
+        style={dimensionStyle}
+        onError={() => setCheckedUri("")}
+      />
+    );
   }
 
   return (

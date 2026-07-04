@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAvatar } from "./useAvatar";
 
 export interface AvatarProps {
@@ -8,16 +8,13 @@ export interface AvatarProps {
 
 export function Avatar({ uri, name }: AvatarProps) {
   const { initials, backgroundColor } = useAvatar(name);
-  // const commonStyle: React.CSSProperties = {
-  //   width: size,
-  //   height: size,
-  //   borderRadius,
-  // };
 
-  if (uri) {
+  const [checkedUri, setCheckedUri] = useState(uri);
+
+  if (checkedUri) {
     return (
       <img
-        src={uri}
+        src={checkedUri}
         alt={name ?? "Avatar"}
         style={{
           width: "48px",
@@ -26,6 +23,9 @@ export function Avatar({ uri, name }: AvatarProps) {
           objectFit: "cover",
         }}
         draggable={false}
+        onError={() => {
+          setCheckedUri("");
+        }}
       />
     );
   }

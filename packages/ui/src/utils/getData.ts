@@ -9,7 +9,7 @@ export function getData() {
     data.push({
       id: i,
       name,
-      avatarUrl: faker.datatype.boolean(0.1)
+      avatarUrl: faker.datatype.boolean(0.3)
         ? `https://i.pravatar.cc/150?u=${encodeURIComponent(name)}`
         : undefined,
     });

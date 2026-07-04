@@ -11,6 +11,7 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
 
   const foregroundRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
   const handleStart = (e: React.PointerEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
