@@ -24,7 +24,7 @@ function Row({
         id={item.id}
         avatarUri={item.avatarUrl}
         name={item.name}
-        onDelete={() => onDeleteItem(item.id)}
+        onDelete={onDeleteItem}
       />
     </div>
   );

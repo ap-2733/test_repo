@@ -65,7 +65,10 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
 
   return (
     <Animated.View style={[styles.wrapper, { height: itemHeight, opacity }]}>
-      <View style={styles.background} />
+      <View style={styles.background}>
+        <Text style={{ color: "white" }}>🗑 Delete</Text>
+        <Text style={{ color: "white" }}>Delete 🗑</Text>
+      </View>
       <Animated.View
         style={[styles.foreground, { transform: [{ translateX }] }]}
         {...panResponder.panHandlers}
@@ -85,6 +88,13 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFill,
     backgroundColor: "indianred",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingLeft: 32,
+    paddingRight: 32,
   },
   foreground: {
     flexDirection: "row",

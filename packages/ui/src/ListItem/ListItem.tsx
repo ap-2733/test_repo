@@ -89,7 +89,10 @@ export function ListItem({ id, avatarUri, name, onDelete }: ListItemProps) {
 
   return (
     <div ref={wrapperRef} className={styles.container}>
-      <div className={styles.background}></div>
+      <div className={styles.background}>
+        <span>🗑 Delete</span>
+        <span>Delete 🗑</span>
+      </div>
       <div
         ref={foregroundRef}
         className={styles.foreground}
